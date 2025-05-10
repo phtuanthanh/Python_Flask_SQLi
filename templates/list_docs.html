@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Documents</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f7f6;
+            margin: 0;
+            padding: 0;
+        }
+        header {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 0;
+            text-align: center;
+        }
+        h1 {
+            margin-top: 20px;
+            text-align: center;
+        }
+        .form-container {
+            background-color: #fff;
+            padding: 20px;
+            margin: 20px auto;
+            max-width: 600px;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        .form-container input, .form-container textarea {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+        .form-container button {
+            width: 100%;
+            padding: 10px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            font-size: 16px;
+        }
+        .form-container button:hover {
+            background-color: #45a049;
+        }
+        .document-list {
+            list-style: none;
+            padding: 0;
+            margin: 20px auto;
+            max-width: 600px;
+        }
+        .document-list li {
+            background-color: #fff;
+            padding: 15px;
+            margin-bottom: 10px;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        .document-list li strong {
+            font-size: 18px;
+        }
+        .document-list li small {
+            color: #888;
+        }
+        .alert {
+            padding: 10px;
+            background-color: #4CAF50;
+            color: white;
+            text-align: center;
+            border-radius: 5px;
+            margin: 20px auto;
+            width: 80%;
+            max-width: 600px;
+        }
+        /* Add some padding for the document list section */
+        h2 {
+            text-align: center;
+            margin-top: 40px;
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>Your Documents</h1>
+</header>
+
+<div class="form-container">
+    {% if message %}
+        <div class="alert">{{ message }}</div>
+    {% endif %}
+
+    <form id="docForm" method="POST">
+        <input type="text" name="title" id="title" placeholder="Title" required>
+        <textarea name="content" id="content" placeholder="Content" required></textarea>
+        <button type="submit">Add Document</button>
+    </form>
+</div>
+
+<h2>Document List</h2>
+<ul class="document-list">
+    {% for doc in docs %}
+        <li>
+            <strong>{{ doc.title }}</strong><br>
+            {{ doc.content }}<br>
+            <small>Created at: {{ doc.created_at }}</small>
+        </li>
+    {% else %}
+        <p>No documents found.</p>
+    {% endfor %}
+</ul>
+
+<script>
+    // Client-side form validation (optional but adds better UX)
+    document.getElementById('docForm').addEventListener('submit', function (event) {
+        const title = document.getElementById('title').value;
+        const content = document.getElementById('content').value;
+
+        if (!title || !content) {
+            alert("Both title and content are required!");
+            event.preventDefault(); // Prevent form submission
+        }
+    });
+</script>
+
+</body>
+</html>

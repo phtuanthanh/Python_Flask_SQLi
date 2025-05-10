@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Login</title>
+    <style>
+        body {
+            background: linear-gradient(to right, #00c6ff, #0072ff);
+            font-family: 'Segoe UI', sans-serif;
+            display: flex;
+            height: 100vh;
+            justify-content: center;
+            align-items: center;
+            margin: 0;
+        }
+
+        .form-container {
+            background: white;
+            padding: 2rem;
+            border-radius: 10px;
+            width: 350px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        h2 {
+            text-align: center;
+            color: #0072ff;
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group {
+            margin-bottom: 1rem;
+        }
+
+        label {
+            font-weight: 600;
+            display: block;
+            margin-bottom: 0.3rem;
+        }
+
+        input {
+            width: 100%;
+            padding: 0.6rem;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+        }
+
+        button {
+            width: 100%;
+            padding: 0.7rem;
+            background: #0072ff;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 1rem;
+        }
+
+        button:hover {
+            background: #005fd1;
+        }
+
+        .message {
+            margin-top: 1rem;
+            color: red;
+            text-align: center;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="form-container">
+        <h2>Login</h2>
+        <form onsubmit="handleLogin(event)">
+            <div class="form-group">
+                <label>Username</label>
+                <input type="text" name="username" required>
+            </div>
+            <div class="form-group">
+                <label>Password</label>
+                <input type="password" name="password" required>
+            </div>
+            <button type="submit">Login</button>
+        </form>
+        <div class="message" id="login-message"></div>
+
+        <!-- 🔗 Link sang đăng ký -->
+        <div style="text-align: center; margin-top: 1rem;">
+            <span>Chưa có tài khoản? </span>
+            <a href="/register" style="color: #0072ff; text-decoration: none; font-weight: bold;">
+                Đăng ký ngay
+            </a>
+        </div>
+    </div>
+
+    <script>
+        function handleLogin(e) {
+            e.preventDefault();
+            const data = new URLSearchParams(new FormData(e.target));
+
+            fetch('/login', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                body: data
+            })
+                .then(res => res.json())
+                .then(res => {
+                    if (res.success) {
+                        window.location.href = res.redirect; // về home
+                    } else {
+                        document.getElementById("login-message").innerText = res.message;
+                    }
+                })
+                .catch(() => {
+                    document.getElementById("login-message").innerText = "Có lỗi xảy ra khi đăng nhập.";
+                });
+        }
+    </script>
+
+
+</body>
+
+</html>

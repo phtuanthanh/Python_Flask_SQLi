@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Update Document</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f7f6;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+        header {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 0;
+            text-align: center;
+            width: 100%;
+        }
+        h1 {
+            margin: 20px 0;
+        }
+        .form-container {
+            background-color: #fff;
+            padding: 20px;
+            margin: 20px auto;
+            max-width: 600px;
+            width: 100%;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        .form-container input,
+        .form-container textarea {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+        .form-container button {
+            width: 100%;
+            padding: 10px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            font-size: 16px;
+        }
+        .form-container button:hover {
+            background-color: #45a049;
+        }
+        .alert {
+            padding: 10px;
+            background-color: #4CAF50;
+            color: white;
+            text-align: center;
+            border-radius: 5px;
+            margin: 20px auto;
+            width: 80%;
+            max-width: 600px;
+        }
+        .form-container p {
+            text-align: center;
+            color: #888;
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>Update Document</h1>
+</header>
+
+<div class="form-container">
+    {% if message %}
+        <div class="alert">{{ message }}</div>
+    {% endif %}
+
+    <form method="POST">
+        <label for="title">Title:</label>
+        <input type="text" name="title" id="title" placeholder="Enter new title" value="{{ doc[0] }}" required>
+        
+        <label for="content">Content:</label>
+        <textarea name="content" id="content" placeholder="Enter new content" required>{{ doc[1] }}</textarea>
+        
+        <button type="submit">Update Document</button>
+    </form>
+</div>
+
+<p><a href="{{ url_for('view_docs') }}">Back to Document List</a></p>
+
+</body>
+</html>

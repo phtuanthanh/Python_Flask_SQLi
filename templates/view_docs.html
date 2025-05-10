@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>View Documents</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f7f6;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        header {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 0;
+            text-align: center;
+            width: 100%;
+        }
+
+        h1 {
+            margin: 20px 0;
+        }
+
+        .form-container {
+            background-color: #fff;
+            padding: 20px;
+            margin: 20px auto;
+            max-width: 600px;
+            width: 100%;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .form-container input {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+
+        .form-container button {
+            width: 100%;
+            padding: 10px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            font-size: 16px;
+        }
+
+        .form-container button:hover {
+            background-color: #45a049;
+        }
+
+        .document-list {
+            list-style: none;
+            padding: 0;
+            margin: 20px auto;
+            max-width: 600px;
+            width: 100%;
+        }
+
+        .document-list li {
+            background-color: #fff;
+            padding: 15px;
+            margin-bottom: 10px;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .document-list li strong {
+            font-size: 18px;
+        }
+
+        .document-list li small {
+            color: #888;
+        }
+
+        .alert {
+            padding: 10px;
+            background-color: #4CAF50;
+            color: white;
+            text-align: center;
+            border-radius: 5px;
+            margin: 20px auto;
+            width: 80%;
+            max-width: 600px;
+        }
+
+        .update-button {
+            background-color: #ffa500;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            padding: 5px 10px;
+            cursor: pointer;
+        }
+
+        .update-button:hover {
+            background-color: #e59400;
+        }
+    </style>
+</head>
+
+<body>
+
+    <header>
+        <h1>Search Documents by Title</h1>
+    </header>
+
+    <div class="form-container">
+        {% if message %}
+        <div class="alert">{{ message }}</div>
+        {% endif %}
+
+        <form method="POST">
+            <input type="text" name="title" placeholder="Enter title to search" required>
+            <button type="submit">Search Documents</button>
+        </form>
+    </div>
+
+    <h2>Document List</h2>
+    <ul class="document-list">
+        {% if docs %}
+        {% for doc in docs %}
+        <li>
+            <strong>{{ doc.title }}</strong><br>
+            {{ doc.content }}<br>
+            <p>{{ doc.username }}</p>
+            <small>Created at: {{ doc.created_at }}</small><br>
+
+            <!-- View Button -->
+            <form action="/view_docs/{{ doc.id }}" method="GET" style="display:inline;">
+                <button class="view-button" type="submit">View</button>
+            </form>
+
+            <!-- Update Button -->
+            <form action="/update_doc/{{ doc.id }}" method="GET" style="display:inline;">
+                <button class="update-button" type="submit">Update</button>
+            </form>
+        </li>
+        {% endfor %}
+        {% else %}
+        <p>No documents found with the given title.</p>
+        {% endif %}
+    </ul>
+
+
+</body>
+
+</html>

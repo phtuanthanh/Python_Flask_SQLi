@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Register</title>
+    <style>
+        body {
+            background: linear-gradient(to right, #43e97b, #38f9d7);
+            font-family: 'Segoe UI', sans-serif;
+            display: flex;
+            height: 100vh;
+            justify-content: center;
+            align-items: center;
+            margin: 0;
+        }
+
+        .form-container {
+            background: white;
+            padding: 2rem;
+            border-radius: 10px;
+            width: 350px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        h2 {
+            text-align: center;
+            color: #10b981;
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group {
+            margin-bottom: 1rem;
+        }
+
+        label {
+            font-weight: 600;
+            display: block;
+            margin-bottom: 0.3rem;
+        }
+
+        input {
+            width: 100%;
+            padding: 0.6rem;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+        }
+
+        button {
+            width: 100%;
+            padding: 0.7rem;
+            background: #10b981;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 1rem;
+        }
+
+        button:hover {
+            background: #0e9e72;
+        }
+
+        .message {
+            margin-top: 1rem;
+            color: red;
+            text-align: center;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="form-container">
+        <h2>Register</h2>
+        <form onsubmit="handleRegister(event)">
+            <div class="form-group">
+                <label>Username</label>
+                <input type="text" name="username" required>
+            </div>
+            <div class="form-group">
+                <label>Name</label>
+                <input type="text" name="name" required>
+            </div>
+            <div class="form-group">
+                <label>Password</label>
+                <input type="password" name="password" required>
+            </div>
+            <div class="form-group">
+                <label>Confirm Password</label>
+                <input type="password" name="confirm_password" required>
+            </div>
+            <button type="submit">Register</button>
+        </form>
+        <div class="message" id="register-message"></div>
+    </div>
+
+    <script>
+        function handleRegister(e) {
+            e.preventDefault();
+            const data = new URLSearchParams(new FormData(e.target));
+
+            fetch('/register', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                body: data
+            })
+                .then(res => res.json())
+                .then(res => {
+                    if (res.success) {
+                        window.location.href = res.redirect;
+                    } else {
+                        document.getElementById("register-message").innerText = res.message;
+                    }
+                })
+                .catch(() => {
+                    document.getElementById("register-message").innerText = "Đã xảy ra lỗi khi đăng ký.";
+                });
+        }
+    </script>
+
+</body>
+
+</html>
